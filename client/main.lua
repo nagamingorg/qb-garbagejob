@@ -1,5 +1,5 @@
 local QBCore = exports['qb-core']:GetCoreObject()
-local playerJob = nil
+local PlayerJob = {}
 local garbageVehicle = nil
 local hasBag = false
 local currentStop = 0
@@ -26,13 +26,14 @@ local function setupClient()
     garbageObject = nil
     endBlip = nil
     currentStopNum = 0
-    if playerJob.name == "garbage" then
+    if PlayerJob.name == "garbage" then
         garbageBlip = AddBlipForCoord(Config.Locations["main"].coords.x, Config.Locations["main"].coords.y, Config.Locations["main"].coords.z)
         SetBlipSprite(garbageBlip, 318)
         SetBlipDisplay(garbageBlip, 4)
-        SetBlipScale(garbageBlip, 1.0)
+        --SetBlipScale(garbageBlip, 1.0)
         SetBlipAsShortRange(garbageBlip, true)
-        SetBlipColour(garbageBlip, 39)
+        SetBlipColour(garbageBlip, 31)
+        SetNewWaypoint(Config.Locations["main"].coords.x, Config.Locations["main"].coords.y)
         BeginTextCommandSetBlipName("STRING")
         AddTextComponentSubstringPlayerName(Config.Locations["main"].label)
         EndTextCommandSetBlipName(garbageBlip)
@@ -506,18 +507,20 @@ RegisterNetEvent('qb-garbagejob:client:MainMenu', function()
 end)
 
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
-    playerJob = QBCore.Functions.GetPlayerData().job
-    setupClient()
-    spawnPeds()
+    PlayerJob = QBCore.Functions.GetPlayerData().job
+    if PlayerJob.name == "garbage" then
+      setupClient()
+      spawnPeds()
+    end
 end)
 
+
 RegisterNetEvent('QBCore:Client:OnJobUpdate', function(JobInfo)
-    playerJob = JobInfo
-    if garbageBlip then
-        RemoveBlip(garbageBlip)
-    end
+  PlayerJob = JobInfo
+  if PlayerJob.name == "garbage" then
     setupClient()
     spawnPeds()
+  end
 end)
 
 AddEventHandler('onResourceStop', function(resource)
@@ -532,7 +535,7 @@ end)
 
 AddEventHandler('onResourceStart', function(resource)
     if GetCurrentResourceName() == resource then
-        playerJob = QBCore.Functions.GetPlayerData().job
+        PlayerJob = QBCore.Functions.GetPlayerData().job
         setupClient()
         spawnPeds()
     end
