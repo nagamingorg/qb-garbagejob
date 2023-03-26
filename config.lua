@@ -157,7 +157,7 @@ Config.Locations = {
 		[25] = {
             name = "barbarenodrive",
             coords = vector4(-3244.39, 994.98, 12.48, 281.18),
-        },		
+        },
     },
     ["routes"] = { -- Custom routes (WIP Do not use)
         [1] = {7, 6, 5, 15, 10},
