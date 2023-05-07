@@ -15,7 +15,7 @@ QBCore.Functions.CreateCallback("garbagejob:server:NewShift", function(source, c
 
     if CanPay(Player) or continue then
         math.randomseed(os.time())
-        local MaxStops = math.random(Config.MinStops, #Config.Locations["trashcan"])
+        local MaxStops = math.random(Config.MinStops, Config.MaxStops)
         local allStops = {}
 
         for _=1, MaxStops do
