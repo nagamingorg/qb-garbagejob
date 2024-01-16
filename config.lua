@@ -1,6 +1,6 @@
 Config = Config or {}
 Config.UseTarget = GetConvar('UseTarget', 'false') == 'true'
-
+Config.Jobname = 'garbage'
 -- Price taken and given back when delivered a truck
 Config.TruckPrice = 250
 
